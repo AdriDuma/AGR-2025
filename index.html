@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Galeria de Momentos</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #f8f8f8;
+      color: #333;
+      line-height: 1.6;
+    }
+
+    /* Cabeçalho fixo */
+    header {
+      background-color: #1a1a1a;
+      color: white;
+      padding: 1.2rem 0;
+      position: fixed;
+      width: 100%;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    }
+
+    nav {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-size: 1.8rem;
+      font-weight: bold;
+      letter-spacing: 2px;
+    }
+
+    .hamburger {
+      display: none;
+      font-size: 1.8rem;
+      background: none;
+      border: none;
+      color: white;
+      cursor: pointer;
+    }
+
+    .menu-links {
+      display: flex;
+      gap: 30px;
+    }
+
+    .menu-links a {
+      color: white;
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 1.1rem;
+      transition: color 0.3s;
+    }
+
+    .menu-links a:hover { color: #ff6b6b; }
+
+    main {
+      margin-top: 90px;
+      padding: 30px 15px;
+      max-width: 1300px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 50px;
+      font-size: 2.6rem;
+      color: #1a1a1a;
+    }
+
+    h2 {
+      text-align: center;
+      margin: 60px 0 30px;
+      font-size: 2rem;
+      color: #222;
+    }
+
+    /* Galeria */
+    .galeria {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 25px;
+      margin-bottom: 70px;
+    }
+
+    .item {
+      background: white;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+      transition: all 0.3s ease;
+    }
+
+    .item:hover {
+      transform: translateY(-12px);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+    }
+
+    /* ============ VÍDEOS HORIZONTAIS 16:9 (NOVIDADE) ============ */
+    .video-container {
+      position: relative;
+      width: 100%;
+      padding-bottom: 56.25%; /* proporção 16:9 perfeita */
+      background: #000;
+      border-radius: 16px 16px 0 0;
+      overflow: hidden;
+    }
+
+    .video-container video {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .video-container::before {
+      content: "▶";
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 4rem;
+      color: rgba(255,255,255,0.8);
+      pointer-events: none;
+      z-index: 2;
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    .video-container:hover::before { opacity: 1; }
+
+    /* Imagens normais */
+    .item img {
+      width: 100%;
+      height: 280px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .placeholder {
+      width: 100%;
+      height: 280px;
+      background: linear-gradient(135deg, #e0e0e0, #f0f0f0);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #888;
+      font-size: 1.1rem;
+      text-align: center;
+      padding: 20px;
+    }
+
+    .legenda {
+      padding: 16px;
+      text-align: center;
+      font-weight: 600;
+      color: #333;
+      background: #fff;
+    }
+
+    /* Responsivo */
+    @media (max-width: 768px) {
+      .hamburger { display: block; }
+      .menu-links {
+        position: fixed;
+        top: 70px;
+        left: -100%;
+        width: 100%;
+        height: 100vh;
+        background-color: #1a1a1a;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-start;
+        padding-top: 60px;
+        transition: left 0.4s ease;
+        z-index: 999;
+      }
+      .menu-links.active { left: 0; }
+      .menu-links a { font-size: 1.6rem; margin: 15px 0; padding: 10px; }
+      h1 { font-size: 2.2rem; }
+    }
+
+    @media (max-width: 480px) {
+      .logo { font-size: 1.5rem; }
+      h1 { font-size: 2rem; }
+      .galeria { grid-template-columns: 1fr; gap: 30px; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <nav>
+      <div class="logo">GALERIA DE MOMENTOS</div>
+      <button class="hamburger" aria-label="Abrir menu">Menu</button>
+      <div class="menu-links" id="menuLinks">
+        <a href="#videos">Vídeos</a>
+        <a href="#feiras">Feiras</a>
+        <a href="#pinturas">Pinturas</a>
+        <a href="#grupo">Grupo</a>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <h1>Reveja alguns registros de atividades e trabalhos:</h1>
+
+    <!-- VÍDEOS -->
+    <section id="videos">
+      <h2>Vídeos</h2>
+      <div class="galeria">
+
+        <div class="item">
+          <div class="video-container">
+            <video poster="10.png" preload="metadata" controls>
+              <source src="Video de dia dos professores.mp4" type="video/mp4">
+              Seu navegador não suporta o vídeo.
+            </video>
+          </div>
+          <div class="legenda">Dia dos Professores</div>
+        </div>
+
+        
+        <div class="item">
+          <div class="video-container">
+            <video poster="11.png" preload="metadata" controls>
+              <source src="SAEB.mp4" type="video/mp4">
+              Seu navegador não suporta o vídeo.
+            </video>
+          </div>
+          <div class="legenda">SAEB</div>
+        </div>
+
+        
+        <div class="item">
+          <div class="video-container">
+            <video poster="12.png" preload="metadata" controls>
+              <source src="Agricultura e impactos.mp4" type="video/mp4">
+              Seu navegador não suporta o vídeo.
+            </video>
+          </div>
+          <div class="legenda">Trabalho de Química I</div>
+        </div>
+
+        
+
+      </div>
+    </section>
+
+    <!-- FEIRAS, PINTURAS E GRUPO (mantidos como antes) -->
+    <section id="feiras">
+      <h2>Feiras</h2>
+      <div class="galeria">
+        <div class="item"><img src="b.jpg" alt="SP Arte 2025"><div class="legenda">Feira de Ciências 2024</div></div>
+        <div class="item"><img src="fe3.jpg" alt="Art Rio 2024"><div class="legenda">Feira de Ciências 2025</div></div>
+        <div class="item"><img src="1.5.jpg" alt="Paris Photo"><div class="legenda">Feira de ciências 2025</div></div>
+        <div class="item"><img src="d.jpg" alt="Art Basel"><div class="legenda">Feira de ciências 2025</div></div>
+        <div class="item"><img src="fe.jpg" alt="Art Basel"><div class="legenda">Empreendedorismo - 2024</div></div>
+        <div class="item"><img src="a.jpg" alt="Art Basel"><div class="legenda">Empreendedorismo - 2024</div></div>
+      </div>
+    </section>
+
+    <section id="pinturas">
+      <h2>Pinturas</h2>
+      <div class="galeria">
+        <div class="item"><img src="1.jpg" alt="Série Fogo"><div class="legenda">Pintura em tela - 2024</div></div>
+        <div class="item"><img src="1.0.jpg" alt="Mar Noturno"><div class="legenda">Pintura em tela - 2024</div></div>
+        <div class="item"><img src="3.jpg" alt="Mar Noturno II"><div class="legenda">Pintura no muro - projeto FENAAH/S</div></div>
+        <div class="item"><img src="4.jpg" alt="Abstração Vermelha"><div class="legenda">Pintura no muro - projeto FENAAH/S</div></div>
+        <div class="item"><img src="5.jpg" alt="Horizonte Azul"><div class="legenda">Concurso de Desenho - 2025</div></div>
+        <div class="item"><img src="6.jpg" alt="Série Geométrica"><div class="legenda">Concurso de Desenho - 2025</div></div>
+      </div>
+    </section>
+
+    <!-- ============================================= -->
+    <!-- SEÇÃO FINAL: FOTO DO GRUPO EM TELA CHEIA - 2025 -->
+    <!-- ============================================= -->
+    
+  </main>
+
+  <!-- JavaScript do menu hamburger (mantém o que já estava funcionando) -->
+  <script>
+    const hamburger = document.querySelector('.hamburger');
+    const menuLinks = document.querySelector('#menuLinks');
+
+    hamburger.addEventListener('click', () => {
+      menuLinks.classList.toggle('active');
+      hamburger.textContent = menuLinks.classList.contains('active') ? '✕' : '☰';
+    });
+
+    document.querySelectorAll('.menu-links a').forEach(link => {
+      link.addEventListener('click', () => {
+        menuLinks.classList.remove('active');
+        hamburger.textContent = '☰';
+      });
+    });
+  </script>
+
+  <!-- ==================== CSS DA SEÇÃO FINAL (adicione no final da tag <style>) ==================== -->
+  <style>
+    /* FECHAMENTO COM FOTO DO GRUPO EM TELA CHEIA */
+    .fechamento-grupo {
+      position: relative;
+      width: 100%;
+      height: 85vh;
+      min-height: 550px;
+      background: url('grupo/grupo-2025.jpg') center center / cover no-repeat fixed;
+      margin-top: 120px;
+    }
+
+    .fechamento-grupo .overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.58);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: white;
+      padding: 20px;
+    }
+
+    .texto-final {
+      font-size: 7rem;
+      font-weight: 900;
+      letter-spacing: 10px;
+      margin: 0;
+      text-shadow: 0 6px 30px rgba(0,0,0,0.8);
+      animation: fadeInUp 1.6s ease-out;
+    }
+
+    .subtexto {
+      font-size: 1.8rem;
+      max-width: 900px;
+      margin-top: 24px;
+      opacity: 0.95;
+      animation: fadeInUp 2s ease-out;
+    }
+
+    /* Responsivo */
+    @media (max-width: 768px) {
+      .fechamento-grupo { height: 70vh; }
+      .texto-final { font-size: 4.5rem; letter-spacing: 6px; }
+      .subtexto { font-size: 1.4rem; }
+    }
+
+    @media (max-width: 480px) {
+      .texto-final { font-size: 3.2rem; letter-spacing: 4px; }
+      .subtexto { font-size: 1.2rem; padding: 0 15px; }
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(50px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</body>
+</html>
+  </main>
+  </main>
+<!-- ================= RODAPÉ MINIMALISTA ================= -->
+<!-- ================= RODAPÉ MINIMALISTA (imagem + copyright) ================= -->
+<footer class="footer-minimal">
+  <div class="footer-inner">
+    <img src="fot.png" alt="Assinatura do artista" class="footer-logo">
+    <p class="footer-copy">© 2025 – Proibido postar</p>
+  </div>
+</footer>
+
+<style>
+  /* Footer limpo e elegante */
+  .footer-minimal {
+    background-color: #0f0f0f;
+    padding: 80px 20px 50px;
+    text-align: center;
+    margin-top: 140px;
+  }
+
+  .footer-inner {
+    max-width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+  }
+
+  .footer-logo {
+    height: 85px;                    /* ajuste se precisar */
+    max-width: 300px;
+    object-fit: contain;
+    filter: brightness(0) invert(1); /* deixa branco – remova se sua imagem já for branca */
+    transition: transform 0.4s ease;
+  }
+
+  .footer-logo:hover {
+    transform: scale(1.08);
+  }
+
+  .footer-copy {
+    color: #888;
+    font-size: 0.92rem;
+    letter-spacing: 1.2px;
+    margin: 0;
+    font-family: 'Arial', sans-serif;
+  }
+
+  /* Responsivo */
+  @media (max-width: 640px) {
+    .footer-logo { height: 68px; }
+    .footer-copy { font-size: 0.88rem; }
+  }
+</style>
+  <!-- JavaScript do menu hamburger -->
+  <script>
+    const hamburger = document.querySelector('.hamburger');
+    const menuLinks = document.querySelector('#menuLinks');
+
+    hamburger.addEventListener('click', () => {
+      menuLinks.classList.toggle('active');
+      hamburger.textContent = menuLinks.classList.contains('active') ? 'Close' : 'Menu';
+    });
+
+    document.querySelectorAll('.menu-links a').forEach(link => {
+      link.addEventListener('click', () => {
+        menuLinks.classList.remove('active');
+        hamburger.textContent = 'Menu';
+      });
+    });
+  </script>
+</body>
+</html>
