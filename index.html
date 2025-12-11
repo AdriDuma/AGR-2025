@@ -247,6 +247,49 @@
 
   <footer>
     <p>© 2025 – Adriane, Giovana e Renata</p>
+    <style>/* BOTÃO VERMELHO NO FINAL DO SITE – VERSÃO MAIS DISCRETA E BONITA */
+.aviso-final {
+  background: linear-gradient(135deg, #c62828, #f44336, #d32f2f);
+  color: white;
+  text-align: center;
+  padding: 18px 40px;
+  margin: 90px auto 60px;
+  max-width: 90%;
+  border-radius: 50px;
+  font-size: 1.4rem;          /* ← Tamanho reduzido (era 1.8rem) */
+  font-weight: 800;
+  letter-spacing: 1.8px;      /* ← Espaçamento das letras reduzido */
+  text-transform: uppercase;
+  box-shadow: 0 12px 40px rgba(244, 67, 54, 0.7);
+  animation: pulse 2.5s infinite;
+  user-select: none;
+  line-height: 1.4;
+}
+
+.aviso-final pre {
+  margin: 0;
+  font-family: inherit;
+  font-size: 1rem;            /* ← Tamanho do “código de música” também reduzido */
+}
+
+/* Responsivo – fica ainda menor em telas pequenas */
+@media (max-width: 768px) {
+  .aviso-final {
+    font-size: 1.25rem;
+    padding: 16px 30px;
+    letter-spacing: 1.5px;
+  }
+  .aviso-final pre { font-size: 0.9rem; }
+}
+
+@media (max-width: 480px) {
+  .aviso-final {
+    font-size: 1.1rem;
+    padding: 14px 25px;
+    letter-spacing: 1.2px;
+  }
+  .aviso-final pre { font-size: 0.85rem; }
+}</style>
   </footer>
 
   <script>
